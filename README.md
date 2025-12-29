@@ -225,14 +225,6 @@ curl -X POST http://localhost:5000/api/favorites/1 \
 - Logs automatiques des opérations
 - Export vers Google Sheets
 
-## 🔜 Prochaines étapes
-
-- Créer le frontend (HTML/CSS/JS)
-- Configurer le workflow n8n
-- Déployer sur Vercel
-- Connecter à Supabase (PostgreSQL)
-- Ajouter upload d'images
-- Créer les diagrammes UML
 
 ## 📝 Notes
 
