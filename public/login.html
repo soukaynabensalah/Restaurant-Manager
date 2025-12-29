@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Restaurant Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="auth-container" style="flex-direction: column; padding-top: 100px;">
+        <div class="glass glass-card" style="width: 100%; max-width: 450px;">
+            <div class="text-center mb-4">
+                <h1 class="text-gradient">Welcome Back</h1>
+                <p style="color: var(--glass-text)">Manage your favorite restaurants</p>
+            </div>
+
+            <div class="auth-switch">
+                <button class="switch-btn active" id="showLogin">Login</button>
+                <button class="switch-btn" id="showRegister">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" name="email" required placeholder="example@email.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" required
+                        placeholder="Enter your password">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%">Sign In</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" style="display: none;">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-control" name="username" required placeholder="Your name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" name="email" required placeholder="example@email.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" required
+                        placeholder="Min. 6 characters">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+
+</html>

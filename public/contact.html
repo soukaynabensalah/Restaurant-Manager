@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Restaurant Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Navbar injected by navbar.js -->
+
+    <div class="container">
+        <h1 class="text-gradient text-center" style="margin-bottom: 3rem;">Get in Touch</h1>
+
+        <div class="contact-grid">
+            <div>
+                <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Let's Chat</h2>
+                <p style="color: var(--glass-text); font-size: 1.1rem; margin-bottom: 2rem;">
+                    Have questions about our platform? Suggestion for a new feature?
+                    Or just want to say hi? We'd love to hear from you.
+                </p>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <i class="fas fa-envelope" style="color: var(--primary); font-size: 1.2rem;"></i>
+                        <span style="color: white;">support@restomanager.com</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <i class="fas fa-phone" style="color: var(--primary); font-size: 1.2rem;"></i>
+                        <span style="color: white;">+1 (555) 123-4567</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-map-marker-alt" style="color: var(--primary); font-size: 1.2rem;"></i>
+                        <span style="color: white;">123 Tech Avenue, Innovation City</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass glass-card">
+                <form
+                    onsubmit="event.preventDefault(); showToast('Message sent! We will reply shortly.', 'success'); this.reset();">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-control" placeholder="john@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Message</label>
+                        <textarea class="form-control" rows="5" placeholder="How can we help you?" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/navbar.js"></script>
+</body>
+
+</html>
