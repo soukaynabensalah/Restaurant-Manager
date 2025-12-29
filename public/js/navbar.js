@@ -20,12 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const links = [
         { name: 'Home', path: '/' },
         { name: 'About', path: '/about.html' },
-        { name: 'Contact', path: '/contact.html' }
+        { name: 'Contact', path: '/contact.html' },
+        { name: 'Dashboard', path: '/dashboard.html' }
     ];
-
-    if (token) {
-        links.push({ name: 'Dashboard', path: '/dashboard.html' });
-    }
 
     // Build Links
     links.forEach(link => {

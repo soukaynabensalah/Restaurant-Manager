@@ -5,24 +5,27 @@ let currentPage = 1;
 const limit = 6;
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Check Auth
+    // 1. Check Auth (Optional for view)
     const token = getCookie('token');
-    if (!token) {
-        window.location.href = '/login.html';
-        return;
-    }
 
     try {
-        // 2. Load User Profile
-        const userRes = await fetchAPI('/api/auth/me');
-        if (!userRes.response.ok) throw new Error('Session invalid');
-        currentUser = userRes.data.user;
-        document.getElementById('welcomeMsg').textContent = `Welcome, ${currentUser.username}`;
+        if (token) {
+            // 2. Load User Profile
+            const userRes = await fetchAPI('/api/auth/me');
+            if (userRes.response.ok) {
+                currentUser = userRes.data.user;
+                document.getElementById('welcomeMsg').textContent = `Welcome, ${currentUser.username}`;
 
-        // 3. Load Favorites IDs
-        await loadFavorites();
+                // 3. Load Favorites IDs
+                await loadFavorites();
+            } else {
+                eraseCookie('token'); // Invalid token
+            }
+        } else {
+            document.getElementById('welcomeMsg').textContent = 'Welcome, Guest';
+        }
 
-        // 4. Initial Load
+        // 4. Initial Load (Always load restaurants)
         loadRestaurants();
 
         // 5. Setup Listeners
@@ -30,8 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     } catch (error) {
         console.error(error);
-        eraseCookie('token');
-        window.location.href = '/login.html';
+        loadRestaurants(); // Load even if auth check fails
     }
 });
 
@@ -92,7 +94,7 @@ function renderRestaurants(list) {
     };
 
     list.forEach(r => {
-        const isOwner = r.user_id === currentUser.id;
+        const isOwner = currentUser && r.user_id === currentUser.id;
         const isMFav = favorites.has(r.id);
 
         const card = document.createElement('div');

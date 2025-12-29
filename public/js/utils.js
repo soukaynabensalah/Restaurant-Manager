@@ -56,8 +56,8 @@ async function fetchAPI(url, options = {}) {
         if (response.status === 401) {
             eraseCookie('token');
             // Redirect to login only if not already there
-            if (!window.location.pathname.endsWith('index.html') && window.location.pathname !== '/') {
-                window.location.href = '/index.html';
+            if (!window.location.pathname.endsWith('login.html')) {
+                window.location.href = '/login.html';
             }
         }
 
