@@ -46,6 +46,7 @@ router.post('/trigger', async (req, res, next) => {
         }
 
         try {
+            console.log('Calling n8n Webhook:', n8nWebhookUrl);
             const response = await fetch(n8nWebhookUrl, {
                 method: 'POST',
                 headers: {
@@ -58,7 +59,16 @@ router.post('/trigger', async (req, res, next) => {
                 })
             });
 
+            console.log('n8n Response Status:', response.status);
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('n8n Error Response:', errorText);
+                throw new Error(`n8n Webhook failed with status ${response.status}: ${errorText}`);
+            }
+
             const result = await response.json();
+            console.log('n8n Parsed Response:', result);
 
             // Logger le scraping
             await db.query(

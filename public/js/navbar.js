@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: 'Home', path: '/' },
         { name: 'About', path: '/about.html' },
         { name: 'Contact', path: '/contact.html' },
-        { name: 'Dashboard', path: '/dashboard.html' }
+        { name: 'Dashboard', path: '/dashboard.html' },
+        { name: 'Scraper', path: '/scraping.html' }
     ];
 
     // Build Links

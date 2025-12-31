@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scraping - Restaurant Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container" style="padding-top: 2rem;">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div>
+                <h1 class="text-gradient">Scraping Center</h1>
+                <p style="color: var(--glass-text)">Find new restaurants automatically</p>
+            </div>
+        </header>
+
+        <div class="glass glass-card" style="max-width: 600px; margin: 0 auto;">
+            <form id="scrapingForm">
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-city"></i> City</label>
+                    <input type="text" name="city" id="cityInput" class="form-control"
+                        placeholder="e.g. Marrakech, Casablanca" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-search"></i> Keyword</label>
+                    <input type="text" name="keyword" id="keywordInput" class="form-control"
+                        placeholder="e.g. Restaurant, Cafe, Pizzeria" value="Restaurant" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    <i class="fas fa-robot"></i> Start Scraping
+                </button>
+            </form>
+        </div>
+
+        <div id="statusContainer" class="glass glass-card mt-4"
+            style="max-width: 600px; margin: 2rem auto; display: none;">
+            <div id="loadingState" style="text-align: center; display: none;">
+                <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
+                <p class="mt-2">Scraping in progress... This may take a few seconds.</p>
+            </div>
+
+            <div id="resultState" style="display: none;">
+                <div id="successMsg" style="text-align: center; color: #4ade80; display: none;">
+                    <i class="fas fa-check-circle" style="font-size: 2rem;"></i>
+                    <h3 class="mt-2">Scraping Started Successfully!</h3>
+                    <p>The process has been triggered in the background.</p>
+                    <a id="sheetLink" href="#" target="_blank" class="btn btn-outline btn-sm mt-2">View Results Sheet <i
+                            class="fas fa-external-link-alt"></i></a>
+                </div>
+
+                <div id="errorMsg" style="text-align: center; color: #f87171; display: none;">
+                    <i class="fas fa-exclamation-circle" style="font-size: 2rem;"></i>
+                    <h3 class="mt-2">Scraping Failed</h3>
+                    <p id="errorText">An error occurred.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/scraping.js"></script>
+</body>
+
+</html>
