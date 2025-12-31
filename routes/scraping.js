@@ -68,10 +68,26 @@ router.post('/trigger', async (req, res, next) => {
             }
 
             const result = await response.json();
-            console.log('n8n Parsed Response:', result);
+            console.log('n8n Parsed Response:', JSON.stringify(result, null, 2));
 
-            // Extract scraped items from response
-            const scrapedItems = result.items || result.data || [];
+            // Extract scraped items from response - handle multiple formats
+            let scrapedItems = [];
+
+            if (Array.isArray(result)) {
+                // Response is directly an array
+                scrapedItems = result;
+            } else if (result.items && Array.isArray(result.items)) {
+                // Response has items property
+                scrapedItems = result.items;
+            } else if (result.data && Array.isArray(result.data)) {
+                // Response has data property
+                scrapedItems = result.data;
+            } else if (result.body && Array.isArray(result.body)) {
+                // Response has body property
+                scrapedItems = result.body;
+            }
+
+            console.log(`Extracted ${scrapedItems.length} items from n8n response`);
 
             // Logger le scraping
             await db.query(
