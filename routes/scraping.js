@@ -70,16 +70,21 @@ router.post('/trigger', async (req, res, next) => {
             const result = await response.json();
             console.log('n8n Parsed Response:', result);
 
+            // Extract scraped items from response
+            const scrapedItems = result.items || result.data || [];
+
             // Logger le scraping
             await db.query(
                 'INSERT INTO scraping_logs (user_id, city, keyword, status, items_scraped, sheet_url) VALUES ($1, $2, $3, $4, $5, $6)',
-                [userId, city, keyword, 'success', result.itemsScraped || 0, result.sheetUrl || null]
+                [userId, city, keyword, 'success', scrapedItems.length, result.sheetUrl || null]
             );
 
             res.json({
                 success: true,
                 message: 'Scraping lancé avec succès',
-                sheetUrl: result.sheetUrl
+                sheetUrl: result.sheetUrl,
+                items: scrapedItems,
+                count: scrapedItems.length
             });
         } catch (error) {
             // Logger l'erreur
