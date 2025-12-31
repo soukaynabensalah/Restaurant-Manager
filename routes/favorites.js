@@ -13,8 +13,8 @@ router.post('/:itemId', async (req, res, next) => {
         const userId = req.user.id;
 
         // Vérifier si le restaurant existe
-        const [restaurants] = await db.query(
-            'SELECT id FROM restaurants WHERE id = ?',
+        const { rows: restaurants } = await db.query(
+            'SELECT id FROM restaurants WHERE id = $1',
             [itemId]
         );
 
@@ -28,7 +28,7 @@ router.post('/:itemId', async (req, res, next) => {
         // Ajouter aux favoris (la contrainte UNIQUE empêche les doublons)
         try {
             await db.query(
-                'INSERT INTO favorites (user_id, restaurant_id) VALUES (?, ?)',
+                'INSERT INTO favorites (user_id, restaurant_id) VALUES ($1, $2)',
                 [userId, itemId]
             );
 
@@ -37,7 +37,7 @@ router.post('/:itemId', async (req, res, next) => {
                 message: 'Restaurant ajouté aux favoris'
             });
         } catch (error) {
-            if (error.code === 'ER_DUP_ENTRY') {
+            if (error.code === '23505') { // Postgres unique_violation
                 return res.status(409).json({
                     success: false,
                     message: 'Ce restaurant est déjà dans vos favoris'
@@ -56,12 +56,12 @@ router.delete('/:itemId', async (req, res, next) => {
         const { itemId } = req.params;
         const userId = req.user.id;
 
-        const [result] = await db.query(
-            'DELETE FROM favorites WHERE user_id = ? AND restaurant_id = ?',
+        const result = await db.query(
+            'DELETE FROM favorites WHERE user_id = $1 AND restaurant_id = $2',
             [userId, itemId]
         );
 
-        if (result.affectedRows === 0) {
+        if (result.rowCount === 0) {
             return res.status(404).json({
                 success: false,
                 message: 'Ce restaurant n\'est pas dans vos favoris'
@@ -82,12 +82,12 @@ router.get('/my-favorites', async (req, res, next) => {
     try {
         const userId = req.user.id;
 
-        const [favorites] = await db.query(
+        const { rows: favorites } = await db.query(
             `SELECT r.*, u.username as creator_name, f.created_at as favorited_at
        FROM favorites f
        JOIN restaurants r ON f.restaurant_id = r.id
        JOIN users u ON r.user_id = u.id
-       WHERE f.user_id = ?
+       WHERE f.user_id = $1
        ORDER BY f.created_at DESC`,
             [userId]
         );

@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
-
+const app = express();
 const errorHandler = require('./middleware/errorHandler');
 
 // Import des routes
@@ -11,7 +11,7 @@ const restaurantRoutes = require('./routes/restaurants');
 const favoriteRoutes = require('./routes/favorites');
 const scrapingRoutes = require('./routes/scraping');
 
-const app = express();
+
 const PORT = process.env.PORT || 5000;
 
 // Middleware
@@ -46,9 +46,14 @@ app.use((req, res) => {
 // Middleware de gestion d'erreurs (doit être en dernier)
 app.use(errorHandler);
 
-// Démarrer le serveur
-app.listen(PORT, () => {
-    console.log(`🚀 Serveur démarré sur le port ${PORT}`);
-    console.log(`📍 URL: http://localhost:${PORT}`);
-    console.log(`🌍 Environnement: ${process.env.NODE_ENV || 'development'}`);
-});
+// Démarrer le serveur localement
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`🚀 Serveur démarré sur le port ${PORT}`);
+        console.log(`📍 URL: http://localhost:${PORT}`);
+        console.log(`🌍 Environnement: ${process.env.NODE_ENV || 'development'}`);
+    });
+}
+
+// Export pour Vercel
+module.exports = app;

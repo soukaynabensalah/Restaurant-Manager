@@ -18,8 +18,8 @@ router.post('/register', async (req, res, next) => {
         }
 
         // Vérifier si l'email existe déjà
-        const [existingUsers] = await db.query(
-            'SELECT id FROM users WHERE email = ?',
+        const { rows: existingUsers } = await db.query(
+            'SELECT id FROM users WHERE email = $1',
             [email]
         );
 
@@ -34,10 +34,11 @@ router.post('/register', async (req, res, next) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Créer l'utilisateur
-        const [result] = await db.query(
-            'INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
+        const { rows } = await db.query(
+            'INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id',
             [username, email, hashedPassword]
         );
+        const result = { insertId: rows[0].id };
 
         res.status(201).json({
             success: true,
@@ -67,8 +68,8 @@ router.post('/login', async (req, res, next) => {
         }
 
         // Trouver l'utilisateur
-        const [users] = await db.query(
-            'SELECT * FROM users WHERE email = ?',
+        const { rows: users } = await db.query(
+            'SELECT * FROM users WHERE email = $1',
             [email]
         );
 
@@ -130,8 +131,8 @@ router.get('/me', async (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         // Récupérer les infos de l'utilisateur
-        const [users] = await db.query(
-            'SELECT id, username, email, created_at FROM users WHERE id = ?',
+        const { rows: users } = await db.query(
+            'SELECT id, username, email, created_at FROM users WHERE id = $1',
             [decoded.id]
         );
 

@@ -21,8 +21,8 @@ router.post('/trigger', async (req, res, next) => {
         }
 
         // Récupérer l'email de l'utilisateur
-        const [users] = await db.query(
-            'SELECT email FROM users WHERE id = ?',
+        const { rows: users } = await db.query(
+            'SELECT email FROM users WHERE id = $1',
             [userId]
         );
 
@@ -72,7 +72,7 @@ router.post('/trigger', async (req, res, next) => {
 
             // Logger le scraping
             await db.query(
-                'INSERT INTO scraping_logs (user_id, city, keyword, status, items_scraped, sheet_url) VALUES (?, ?, ?, ?, ?, ?)',
+                'INSERT INTO scraping_logs (user_id, city, keyword, status, items_scraped, sheet_url) VALUES ($1, $2, $3, $4, $5, $6)',
                 [userId, city, keyword, 'success', result.itemsScraped || 0, result.sheetUrl || null]
             );
 
@@ -84,7 +84,7 @@ router.post('/trigger', async (req, res, next) => {
         } catch (error) {
             // Logger l'erreur
             await db.query(
-                'INSERT INTO scraping_logs (user_id, city, keyword, status, error_message) VALUES (?, ?, ?, ?, ?)',
+                'INSERT INTO scraping_logs (user_id, city, keyword, status, error_message) VALUES ($1, $2, $3, $4, $5)',
                 [userId, city, keyword, 'failed', error.message]
             );
 

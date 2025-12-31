@@ -16,32 +16,33 @@ router.get('/', async (req, res, next) => {
         // Construire la requête avec filtres
         let query = 'SELECT r.*, u.username as creator_name FROM restaurants r JOIN users u ON r.user_id = u.id WHERE 1=1';
         const params = [];
+        let paramCount = 1;
 
         if (search) {
-            query += ' AND (r.name LIKE ? OR r.address LIKE ?)';
+            query += ` AND (r.name ILIKE $${paramCount++} OR r.address ILIKE $${paramCount++})`;
             params.push(`%${search}%`, `%${search}%`);
         }
 
         if (cuisine) {
-            query += ' AND r.cuisine = ?';
+            query += ` AND r.cuisine = $${paramCount++}`;
             params.push(cuisine);
         }
 
         if (status) {
-            query += ' AND r.status = ?';
+            query += ` AND r.status = $${paramCount++}`;
             params.push(status);
         }
 
         // Compter le total
         const countQuery = query.replace('SELECT r.*, u.username as creator_name', 'SELECT COUNT(*) as total');
-        const [countResult] = await db.query(countQuery, params);
-        const total = countResult[0].total;
+        const { rows: countResult } = await db.query(countQuery, params);
+        const total = parseInt(countResult[0].total); // Postgres returns count as string (bigint) usually
 
         // Ajouter pagination
-        query += ' ORDER BY r.created_at DESC LIMIT ? OFFSET ?';
+        query += ` ORDER BY r.created_at DESC LIMIT $${paramCount++} OFFSET $${paramCount++}`;
         params.push(limit, offset);
 
-        const [restaurants] = await db.query(query, params);
+        const { rows: restaurants } = await db.query(query, params);
 
         res.json({
             success: true,
@@ -63,8 +64,8 @@ router.get('/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
 
-        const [restaurants] = await db.query(
-            'SELECT r.*, u.username as creator_name FROM restaurants r JOIN users u ON r.user_id = u.id WHERE r.id = ?',
+        const { rows: restaurants } = await db.query(
+            'SELECT r.*, u.username as creator_name FROM restaurants r JOIN users u ON r.user_id = u.id WHERE r.id = $1',
             [id]
         );
 
@@ -118,10 +119,11 @@ router.post('/', isAuthenticated, async (req, res, next) => {
             }
         }
 
-        const [result] = await db.query(
-            'INSERT INTO restaurants (user_id, name, cuisine, address, average_price, rating, status, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        const { rows } = await db.query(
+            'INSERT INTO restaurants (user_id, name, cuisine, address, average_price, rating, status, image) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
             [userId, name, cuisine, address, average_price || null, rating || 0, status || 'prospect', image || null]
         );
+        const result = { insertId: rows[0].id };
 
         res.status(201).json({
             success: true,
@@ -151,8 +153,8 @@ router.put('/:id', isAuthenticated, async (req, res, next) => {
         const userId = req.user.id;
 
         // Vérifier si le restaurant existe et appartient à l'utilisateur
-        const [existing] = await db.query(
-            'SELECT user_id FROM restaurants WHERE id = ?',
+        const { rows: existing } = await db.query(
+            'SELECT user_id FROM restaurants WHERE id = $1',
             [id]
         );
 
@@ -193,7 +195,7 @@ router.put('/:id', isAuthenticated, async (req, res, next) => {
         }
 
         await db.query(
-            'UPDATE restaurants SET name = ?, cuisine = ?, address = ?, average_price = ?, rating = ?, status = ?, image = ? WHERE id = ?',
+            'UPDATE restaurants SET name = $1, cuisine = $2, address = $3, average_price = $4, rating = $5, status = $6, image = $7 WHERE id = $8',
             [name, cuisine, address, average_price, rating, status, image, id]
         );
 
@@ -232,7 +234,7 @@ router.delete('/:id', isAuthenticated, async (req, res, next) => {
             });
         }
 
-        await db.query('DELETE FROM restaurants WHERE id = ?', [id]);
+        await db.query('DELETE FROM restaurants WHERE id = $1', [id]);
 
         res.json({
             success: true,
