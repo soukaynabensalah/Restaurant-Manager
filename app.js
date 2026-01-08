@@ -10,6 +10,7 @@ const authRoutes = require('./routes/auth');
 const restaurantRoutes = require('./routes/restaurants');
 const favoriteRoutes = require('./routes/favorites');
 const scrapingRoutes = require('./routes/scraping');
+const chatRoutes = require('./routes/chat');
 
 
 const PORT = process.env.PORT || 5000;
@@ -34,6 +35,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/favorites', favoriteRoutes);
 app.use('/api/scraping', scrapingRoutes);
+app.use('/api/chat', chatRoutes);
 
 // Route 404
 app.use((req, res) => {

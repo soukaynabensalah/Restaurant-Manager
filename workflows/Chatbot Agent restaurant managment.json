@@ -1,0 +1,211 @@
+{
+  "name": "Chatbot Agent restaurant managment",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "446b7488-3de7-42f9-b084-e98ddf13223a",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        16,
+        208
+      ],
+      "name": "Webhook1",
+      "id": "aaabe9fc-e752-4e77-a87e-0e2a62b77dfb",
+      "webhookId": "446b7488-3de7-42f9-b084-e98ddf13223a"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Webhook1').item.json.body.message }}",
+        "options": {
+          "systemMessage": "Tu es l'assistant virtuel officiel de la plateforme \"Restaurant Manager\", une solution moderne pour organiser, noter et suivre les expériences culinaires.\nINFORMATIONS SUR LA PLATEFORME :\n• Nom : Restaurant Manager\n• Mission : Aider les passionnés de cuisine à organiser leurs expériences culinaires\n• Fonctionnalités :\n  - Organisation : Dashboard pour suivre tous les restaurants visités ou à essayer\n  - Découverte : Filtres par cuisine, prix et note pour trouver le restaurant idéal\n  - Favoris : Sauvegarde des meilleurs restaurants pour un accès rapide\n• Contact : support@restomanager.com | +1 (555) 123-4567 | 123 Tech Avenue, Innovation City\nBASE DE DONNÉES DES RESTAURANTS :\nVoici la liste complète des restaurants disponibles :\n{{ $json.context }}\nRÈGLES STRICTES :\n1. SUJETS AUTORISÉS UNIQUEMENT :\n   ✓ Recommandations de restaurants (basées sur la liste ci-dessus)\n   ✓ Informations sur les restaurants (nom, cuisine, prix, note)\n   ✓ Fonctionnalités de la plateforme Restaurant Manager\n   ✓ Gestion des favoris et organisation des restaurants\n   ✓ Questions sur comment utiliser le site\n2. SUJETS INTERDITS :\n   ✗ Questions générales (culture, science, actualités, etc.)\n   ✗ Programmation ou code\n   ✗ Météo, sport, politique\n   ✗ Tout sujet non lié aux restaurants ou à la plateforme\n3. COMPORTEMENT :\n   • Utilise UNIQUEMENT les restaurants de la liste fournie\n   • N'invente JAMAIS de restaurants ou d'informations\n   • Si un restaurant n'est pas dans la liste, dis clairement qu'il n'est pas référencé\n   • Pour les recommandations, filtre intelligemment selon les critères (cuisine, prix, note)\n   • Si la question est hors sujet, réponds poliment : \"Je suis spécialisé uniquement dans les restaurants et la plateforme Restaurant Manager. Je ne peux pas répondre à cette question.\"\n4. FORMAT DES RÉPONSES :\n   • Sois concis, clair et professionnel\n   • Utilise des emojis occasionnellement pour rendre la conversation agréable (🍽️ 🌟 💰)\n   • Mentionne toujours le nom, la cuisine, le prix moyen et la note pour les recommandations\n   • Réponds en français\nEXEMPLES DE BONNES RÉPONSES :\nQ: \"Je cherche un restaurant marocain pas cher\"\nR: \"Je vous recommande [Nom] 🍽️ - Cuisine marocaine, prix moyen [X] MAD, note [Y]/5 étoiles.\"\nQ: \"Comment ajouter un restaurant en favori ?\"\nR: \"Sur Restaurant Manager, vous pouvez sauvegarder vos restaurants préférés en cliquant sur l'icône cœur ❤️. Ils seront accessibles rapidement dans votre section Favoris.\"\nQ: \"Quelle est la capitale de la France ?\"\nR: \"Je suis spécialisé uniquement dans les restaurants et la plateforme Restaurant Manager. Je ne peux pas répondre à cette question.\""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        512,
+        160
+      ],
+      "name": "AI Agent1",
+      "id": "46def4d3-d7ed-4543-84ca-2910155235b0"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-120b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        432,
+        448
+      ],
+      "name": "Groq Model Main1",
+      "id": "3d3ffa21-5e29-4f24-864e-29cb90eba423",
+      "credentials": {
+        "groqApi": {
+          "id": "aAlhaGWyPhfIgrU5",
+          "name": "Groq account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { response: $json.output } }}",
+        "options": {}
+      },
+      "name": "Respond to Webhook1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1152,
+        176
+      ],
+      "id": "2eb01ce8-d174-4b6a-9e35-e3c91a16453f"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "restaurants"
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        912,
+        320
+      ],
+      "id": "bc088aa0-ca2d-4179-9a72-6ceea07ee7f0",
+      "name": "Get many rows in Supabase1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "wsApIWvgToulmRH3",
+          "name": "Supabase account 11"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "favorites"
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        784,
+        432
+      ],
+      "id": "ed7cfb76-9258-44bb-9e42-3899820e9126",
+      "name": "Get many rows in Supabase",
+      "credentials": {
+        "supabaseApi": {
+          "id": "wsApIWvgToulmRH3",
+          "name": "Supabase account 11"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook1": [
+      {
+        "json": {
+          "headers": {
+            "connection": "upgrade",
+            "host": "n8n.zackdev.io",
+            "content-length": "89",
+            "content-type": "application/json",
+            "user-agent": "PostmanRuntime/7.51.0",
+            "accept": "*/*",
+            "cache-control": "no-cache",
+            "postman-token": "ab8a21e4-815d-4052-8050-a53beddae42b",
+            "accept-encoding": "gzip, deflate, br"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "message": "je veux une restaurant à marrakech avec un prix moyenne inférieur à 200"
+          },
+          "webhookUrl": "https://n8n.zackdev.io/webhook/446b7488-3de7-42f9-b084-e98ddf13223a",
+          "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Model Main1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows in Supabase1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows in Supabase": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5e8d210d-06f5-4d53-a95b-6a49bc6bf8d3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6fba02c56f732391825a81b0d3eb33212632413b406e8a0f3fe5b1cfa7369a99"
+  },
+  "id": "unKJAqg9hiZfEPVA",
+  "tags": []
+}
