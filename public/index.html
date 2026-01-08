@@ -5,54 +5,245 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurant Manager - Smart Management Solution</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Miniver&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet" href="chatbot.css">
+
+    <!-- Hero Image Style Override -->
+    <style>
+        .hero-section {
+            background-image: url('assets/Restaurant.webp');
+        }
+    </style>
 </head>
 
 <body>
     <!-- Navbar injected by navbar.js -->
 
-    <div class="container">
-        <section class="hero">
-            <h1 class="text-gradient">Manage All Your Favorite<br>Restaurants in One Place</h1>
-            <p>
+    <!-- Hero Section (Home) -->
+    <header id="home" class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1 class="hero-title">Manage All Your Favorite<br><span>Restaurants in One Place</span></h1>
+            <p class="hero-text">
                 The ultimate solution for food lovers and critics. Organize, rate, and track your culinary experiences
                 with our modern, easy-to-use platform.
             </p>
             <div style="display: flex; gap: 1rem; justify-content: center;">
-                <a href="/login.html" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">Get
-                    Started</a>
-                <a href="/about.html" class="btn btn-outline" style="padding: 1rem 2rem; font-size: 1.1rem;">Learn
-                    More</a>
+                <a href="#about" class="btn btn-primary">Learn More</a>
+                <a href="/login.html" class="btn btn-outline">Get Started</a>
             </div>
-        </section>
+        </div>
+    </header>
 
-        <section class="features-grid mb-4">
-            <div class="glass glass-card feature-card">
-                <i class="fas fa-th-list feature-icon"></i>
-                <h3>Organize</h3>
-                <p style="color: rgba(255,255,255,0.7)">Keep track of all the restaurants you've visited or want to try
-                    in one organized dashboard.</p>
+    <!-- Key Features Section (Was Menu) -->
+    <section class="section-padding bg-white">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-subtitle">Why Choose Us</span>
+                <h2 class="section-title text-dark">Key Features</h2>
+                <p class="text-dark" style="max-width: 600px; margin: 0 auto; opacity: 0.7;">
+                    Everything you need to keep track of your gastronomic journey.
+                </p>
             </div>
-            <div class="glass glass-card feature-card">
-                <i class="fas fa-search feature-icon"></i>
-                <h3>Discover</h3>
-                <p style="color: rgba(255,255,255,0.7)">Filter by cuisine, price, and rating to find exactly what you're
-                    craving at any moment.</p>
+
+            <div class="menu-grid">
+                <!-- Feature 1 -->
+                <div class="menu-card">
+                    <div
+                        style="height: 200px; background: #FFF3E0; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-th-list" style="font-size: 5rem; color: var(--primary);"></i>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-footer" style="margin-bottom: 0.5rem;">
+                            <h3 class="menu-title">Organize</h3>
+                        </div>
+                        <p class="menu-desc">Keep track of all the restaurants you've visited or want to try in one
+                            organized dashboard.</p>
+                        <a href="/login.html" class="btn btn-primary" style="width: 100%; padding: 0.5rem;">Try It
+                            Now</a>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="menu-card">
+                    <div
+                        style="height: 200px; background: #FFF3E0; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-search" style="font-size: 5rem; color: var(--primary);"></i>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-footer" style="margin-bottom: 0.5rem;">
+                            <h3 class="menu-title">Discover</h3>
+                        </div>
+                        <p class="menu-desc">Filter by cuisine, price, and rating to find exactly what you're craving at
+                            any moment.</p>
+                        <a href="/login.html" class="btn btn-primary" style="width: 100%; padding: 0.5rem;">Start
+                            Exploring</a>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="menu-card">
+                    <div
+                        style="height: 200px; background: #FFF3E0; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-heart" style="font-size: 5rem; color: var(--primary);"></i>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-footer" style="margin-bottom: 0.5rem;">
+                            <h3 class="menu-title">Favorites</h3>
+                        </div>
+                        <p class="menu-desc">Save your top picks for quick access and never forget that amazing pasta
+                            place again.</p>
+                        <a href="/login.html" class="btn btn-primary" style="width: 100%; padding: 0.5rem;">View
+                            Favorites</a>
+                    </div>
+                </div>
             </div>
-            <div class="glass glass-card feature-card">
-                <i class="fas fa-heart feature-icon"></i>
-                <h3>Favorites</h3>
-                <p style="color: rgba(255,255,255,0.7)">Save your top picks for quick access and never forget that
-                    amazing pasta place again.</p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section-padding bg-dark">
+        <div class="container">
+            <div class="story-grid">
+                <div>
+                    <span class="section-subtitle">About Us</span>
+                    <h2 class="section-title text-light" style="text-align: left;">Passionate about Food & Tech</h2>
+                    <p class="text-light" style="opacity: 0.8; line-height: 1.8; margin-bottom: 1.5rem;">
+                        Restaurant Manager started with a simple idea: make it easy to remember great dining
+                        experiences.
+                        Whether you are a casual foodie or a professional critic, our tool helps you catalog, rate, and
+                        revisit your favorite culinary spots.
+                    </p>
+                    <p class="text-light" style="opacity: 0.8; line-height: 1.8;">
+                        We believe that every meal tells a story, and we're here to help you keep those stories alive.
+                    </p>
+                    <div class="story-features">
+                        <div class="story-feature">
+                            <div class="story-feature-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h4 class="text-light">Users</h4>
+                            <p class="text-light" style="font-size: 0.8rem;">Food Lovers</p>
+                        </div>
+                        <div class="story-feature">
+                            <div class="story-feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h4 class="text-light">Secure</h4>
+                            <p class="text-light" style="font-size: 0.8rem;">Private Data</p>
+                        </div>
+                        <div class="story-feature">
+                            <div class="story-feature-icon">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <h4 class="text-light">Fast</h4>
+                            <p class="text-light" style="font-size: 0.8rem;">Modern Tech</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <!-- Placeholder or another image if available. Reusing the interior shot or a generic one -->
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                        alt="Restaurant Atmosphere" class="story-img">
+                </div>
             </div>
-        </section>
-    </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section-padding bg-white">
+        <div class="container">
+            <div class="text-center mb-4">
+                <span class="section-subtitle">Contact</span>
+                <h2 class="section-title text-dark">Get in Touch</h2>
+            </div>
+
+            <div class="contact-grid">
+                <div>
+                    <h3 class="text-dark" style="font-size: 2rem; margin-bottom: 1.5rem;">Let's Chat</h3>
+                    <p class="text-dark" style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.8;">
+                        Have questions about our platform? Suggestion for a new feature?
+                        Or just want to say hi? We'd love to hear from you.
+                    </p>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <i class="fas fa-envelope" style="color: var(--primary); font-size: 1.2rem;"></i>
+                            <span class="text-dark">support@restomanager.com</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <i class="fas fa-phone" style="color: var(--primary); font-size: 1.2rem;"></i>
+                            <span class="text-dark">+1 (555) 123-4567</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <i class="fas fa-map-marker-alt" style="color: var(--primary); font-size: 1.2rem;"></i>
+                            <span class="text-dark">123 Tech Avenue, Innovation City</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass glass-card" style="background: var(--dark);">
+                    <form
+                        onsubmit="event.preventDefault(); alert('Message sent! We will reply shortly.'); this.reset();">
+                        <div class="form-group">
+                            <label class="form-label text-light">Full Name</label>
+                            <input type="text" class="form-control" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label text-light">Email Address</label>
+                            <input type="email" class="form-control" placeholder="john@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label text-light">Message</label>
+                            <textarea class="form-control" rows="5" placeholder="How can we help you?"
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="section-padding footer-section bg-dark">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h4 class="text-primary" style="font-size: 1.5rem; font-weight: 800;">Resto<span
+                        style="color: white;">Manager</span></h4>
+                <p>
+                    The smart way to manage your favorite dining spots.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="#home">Home</a>
+                <a href="#about">About Us</a>
+                <a href="#contact">Contact</a>
+                <a href="/login.html">Login</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Tech Avenue</p>
+                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                <p><i class="fas fa-envelope"></i> support@restomanager.com</p>
+            </div>
+        </div>
+        <div class="container text-center" style="margin-top: 3rem; border-top: 1px solid #333; padding-top: 1.5rem;">
+            <p style="color: #666; font-size: 0.9rem;">&copy; 2026 Restohub. All rights reserved.</p>
+        </div>
+    </footer>
 
     <!-- Chatbot HTML -->
     <button class="chatbot-toggler">
