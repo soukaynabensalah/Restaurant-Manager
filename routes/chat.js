@@ -1,26 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-/**
- * @route POST /api/chat
- * @desc Envoyer un message au chatbot n8n
- * @access Public
- */
+// Route chatbot simple
 router.post('/', async (req, res) => {
     try {
         const { message } = req.body;
 
-        if (!message) {
-            return res.status(400).json({
-                success: false,
-                message: 'Le message est requis'
-            });
-        }
-
-        // URL du webhook n8n
-        const WORKFLOW_URL = 'https://n8n.zackdev.io/webhook/446b7488-3de7-42f9-b084-e98ddf13223a';
-
-        const response = await fetch(WORKFLOW_URL, {
+        // Appeler le webhook n8n avec fetch
+        const n8nResponse = await fetch('https://n8n.zackdev.io/webhook/446b7488-3de7-42f9-b084-e98ddf13223a', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -28,20 +15,18 @@ router.post('/', async (req, res) => {
             body: JSON.stringify({ message })
         });
 
-        if (!response.ok) {
-            throw new Error(`Erreur n8n: ${response.statusText}`);
-        }
+        const data = await n8nResponse.json();
 
-        const data = await response.json();
-
-        res.json(data);
+        res.json({
+            success: true,
+            response: data.response
+        });
 
     } catch (error) {
-        console.error('Erreur Chatbot:', error);
+        console.error('Erreur:', error);
         res.status(500).json({
             success: false,
-            message: 'Erreur lors de la communication avec le chatbot',
-            error: error.message
+            error: 'Service indisponible'
         });
     }
 });

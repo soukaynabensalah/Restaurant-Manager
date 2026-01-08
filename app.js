@@ -35,7 +35,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/favorites', favoriteRoutes);
 app.use('/api/scraping', scrapingRoutes);
-app.use('/api/chat', chatRoutes);
+app.use('/api/chatbot', chatRoutes);
 
 // Route 404
 app.use((req, res) => {
