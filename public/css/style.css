@@ -117,7 +117,7 @@ body {
 }
 
 .btn-outline {
-    background: transparent;
+    background: var(--primary);
     border: 2px solid var(--primary);
     color: var(--light);
 }
@@ -610,23 +610,99 @@ body {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
+/* Tablet & Mobile (<1024px) */
+@media (max-width: 1024px) {
+    .nav-toggle {
+        display: block !important;
+    }
+
+    .nav-mobile-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
         background: var(--dark);
-        position: relative;
+        padding: 2rem;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        display: none;
+        /* Hidden by default */
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .navbar.scrolled .nav-mobile-menu {
+        background: var(--light);
+    }
+
+    .navbar.nav-open .nav-mobile-menu {
+        display: flex;
+        animation: slideDown 0.3s ease forwards;
     }
 
     .nav-links {
-        gap: 1rem;
-        margin-top: 1rem;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
     }
 
+    .nav-auth {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+    }
+
+    .nav-logo {
+        z-index: 1001;
+    }
+
+    /* Adjust text colors for mobile menu when scrolled */
+    .navbar.scrolled .nav-link,
+    .navbar.scrolled .btn-outline {
+        color: var(--text-dark);
+        border-color: var(--text-dark);
+    }
+}
+
+/* New hamburger button style */
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--light);
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.navbar.scrolled .nav-toggle {
+    color: var(--text-dark);
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
     .hero-title {
         font-size: 2.5rem;
     }
 
     .story-grid {
         grid-template-columns: 1fr;
+    }
+
+    .contact-grid {
+        flex-direction: column;
     }
 }

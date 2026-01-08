@@ -80,15 +80,52 @@ document.addEventListener('DOMContentLoaded', () => {
     container.style.alignItems = 'center';
     container.style.height = '100%';
 
+    // Hamburger Button
+    const hamburger = document.createElement('button');
+    hamburger.className = 'nav-toggle';
+    hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+    hamburger.ariaLabel = 'Toggle navigation';
+
+    // Mobile Menu Wrapper
+    const mobileMenu = document.createElement('div');
+    mobileMenu.className = 'nav-mobile-menu';
+
     // Assemble
     container.appendChild(logoLink);
-    container.appendChild(linksDiv);
-    container.appendChild(authDiv);
+    container.appendChild(hamburger);
+
+    // Move links and auth into mobile wrapper for unified toggling
+    mobileMenu.appendChild(linksDiv);
+    mobileMenu.appendChild(authDiv);
+    container.appendChild(mobileMenu);
 
     nav.appendChild(container);
 
     // Insert into DOM (prepend to body or specific container)
     document.body.prepend(nav);
+
+    // Toggle Logic
+    hamburger.addEventListener('click', () => {
+        nav.classList.toggle('nav-open');
+        const icon = hamburger.querySelector('i');
+        if (nav.classList.contains('nav-open')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+        } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+    });
+
+    // Close menu when link clicked
+    linksDiv.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            nav.classList.remove('nav-open');
+            const icon = hamburger.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        });
+    });
 
     // Scroll Effect
     window.addEventListener('scroll', () => {
