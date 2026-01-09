@@ -13,6 +13,7 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet" href="chatbot.css">
+    <link rel="manifest" href="/manifest.json">
 
     <!-- Hero Image Style Override -->
     <style>
@@ -271,6 +272,14 @@
             <span id="send-btn" class="material-symbols-outlined">send</span>
         </div>
     </div>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(() => console.log('Service Worker Registered'))
+                .catch((error) => console.error('Service Worker Error:', error));
+        }
+    </script>
 
     <script src="js/utils.js"></script>
     <script src="js/navbar.js"></script>
