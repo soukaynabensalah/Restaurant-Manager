@@ -1,31 +1,62 @@
-# Restaurant Management Backend
+# Restaurant Management System
 
-Backend API pour un système de gestion de restaurants avec authentification JWT, système de favoris et intégration n8n pour le scraping.
+Full-stack restaurant management platform with JWT authentication, favorites system, n8n-powered web scraping, and AI chatbot assistant. Features a modern, responsive frontend with PWA capabilities.
 
 ## 🚀 Technologies
 
-- **Node.js** & **Express** - Serveur web
-- **MySQL** - Base de données
-- **JWT** - Authentification
-- **bcrypt** - Hashage des mots de passe
-- **n8n** - Workflow automation pour scraping
+### Backend
+- **Node.js** & **Express** - Web server
+- **MySQL** - Database
+- **JWT** - Authentication
+- **bcrypt** - Password hashing
+- **n8n** - Workflow automation for scraping & chatbot
+
+### Frontend
+- **HTML5** & **Vanilla JavaScript** - Modern web standards
+- **CSS3** - Glassmorphism design with responsive layout
+- **Font Awesome** - Icon library
+- **Google Fonts** - Inter typography
+- **PWA** - Progressive Web App support
+- **PostHog** - Analytics integration
 
 ## 📁 Structure du Projet
 
 ```
 Restaurant_Management_Scraping/
 ├── config/
-│   ├── database.js      # Configuration MySQL
-│   └── schema.sql       # Schéma de la base de données
+│   ├── database.js      # MySQL configuration
+│   └── schema.sql       # Database schema
 ├── middleware/
-│   ├── auth.js          # Middleware JWT
-│   └── errorHandler.js  # Gestion d'erreurs
+│   ├── auth.js          # JWT middleware
+│   └── errorHandler.js  # Error handling
 ├── routes/
-│   ├── auth.js          # Routes d'authentification
-│   ├── restaurants.js   # Routes restaurants (CRUD)
-│   ├── favorites.js     # Routes favoris
-│   └── scraping.js      # Routes scraping n8n
-├── app.js               # Point d'entrée
+│   ├── auth.js          # Authentication routes
+│   ├── restaurants.js   # Restaurant CRUD routes
+│   ├── favorites.js     # Favorites routes
+│   ├── scraping.js      # n8n scraping routes
+│   └── chat.js          # AI chatbot routes
+├── public/
+│   ├── index.html       # Landing page (Home/About/Contact)
+│   ├── dashboard.html   # Restaurant management dashboard
+│   ├── scraping.html    # Web scraping interface
+│   ├── login.html       # Authentication page
+│   ├── about.html       # About page
+│   ├── contact.html     # Contact page
+│   ├── css/
+│   │   └── style.css    # Main stylesheet (glassmorphism design)
+│   ├── js/
+│   │   ├── navbar.js    # Dynamic navbar with hamburger menu
+│   │   ├── chatbot.js   # AI chatbot integration
+│   │   ├── dashboard.js # Dashboard functionality
+│   │   ├── scraping.js  # Scraping interface logic
+│   │   ├── auth.js      # Authentication logic
+│   │   └── utils.js     # Utility functions
+│   ├── chatbot.css      # Chatbot styling
+│   ├── manifest.json    # PWA manifest
+│   └── service-worker.js # PWA service worker
+├── workflows/
+│   └── Chatbot Agent restaurant managment.json # n8n chatbot workflow
+├── app.js               # Entry point
 ├── package.json
 ├── .env.example
 └── README.md
@@ -141,15 +172,36 @@ Le serveur démarre sur `http://localhost:5000`
 
 ### Scraping (n8n Integration)
 
-| Méthode | Endpoint | Description | Auth |
+| Method | Endpoint | Description | Auth |
 |---------|----------|-------------|------|
-| POST | `/api/scraping/trigger` | Déclencher scraping | Oui |
+| POST | `/api/scraping/trigger` | Trigger web scraping | Yes |
 
-**Body pour POST /api/scraping/trigger :**
+**Body for POST /api/scraping/trigger:**
 ```json
 {
   "city": "Marrakech",
   "keyword": "restaurant marocain"
+}
+```
+
+### AI Chatbot
+
+| Method | Endpoint | Description | Auth |
+|---------|----------|-------------|------|
+| POST | `/api/chatbot` | Send message to AI chatbot | No |
+
+**Body for POST /api/chatbot:**
+```json
+{
+  "message": "What are the best restaurants in my favorites?"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "response": "Based on your favorites, here are the top-rated restaurants..."
 }
 ```
 
@@ -201,35 +253,199 @@ curl -X POST http://localhost:5000/api/favorites/1 \
 - **rating** : DECIMAL(3, 2) - Note de 0 à 5
 - **average_price** : DECIMAL(10, 2) - Prix moyen
 
-## 🛠️ Fonctionnalités Clés
+## 🛠️ Key Features
 
-### Pagination
-- 6 restaurants par page par défaut
-- Paramètres `page` et `limit` configurables
+### Backend Features
 
-### Recherche & Filtres
-- Recherche par nom ou adresse
-- Filtre par type de cuisine
-- Filtre par statut
+#### Pagination
+- 6 restaurants per page by default
+- Configurable `page` and `limit` parameters
 
-### Ownership
-- Seul le créateur d'un restaurant peut le modifier ou le supprimer
-- Validation automatique via JWT
+#### Search & Filters
+- Search by name or address
+- Filter by cuisine type
+- Filter by status
 
-### Favoris
-- Contrainte UNIQUE empêche les doublons
-- Liste complète des favoris avec détails
+#### Ownership
+- Only the creator can modify or delete their restaurants
+- Automatic validation via JWT
 
-### Scraping n8n
-- Intégration webhook n8n
-- Logs automatiques des opérations
-- Export vers Google Sheets
+#### Favorites System
+- UNIQUE constraint prevents duplicates
+- Complete favorites list with details
+- One-click add/remove functionality
+
+#### n8n Web Scraping
+- Webhook integration with n8n
+- Automatic operation logging
+- Export to Google Sheets
+- Real-time scraping status updates
+
+#### AI Chatbot Assistant
+- Powered by n8n workflow automation
+- Natural language understanding
+- Restaurant data queries
+- Context-aware responses
+- Integration with Groq LLM
+
+### Frontend Features
+
+#### Modern Responsive Design
+- **Glassmorphism UI** - Premium glass-effect design
+- **Fully Responsive** - Mobile-first approach
+- **Hamburger Menu** - Collapsible navigation on mobile
+- **Dark Theme** - Eye-friendly color scheme
+- **Smooth Animations** - Micro-interactions for better UX
+
+#### Progressive Web App (PWA)
+- **Installable** - Add to home screen
+- **Service Worker** - Offline capabilities
+- **Manifest** - App-like experience
+- **Fast Loading** - Optimized performance
+
+#### Interactive Chatbot Widget
+- **Floating Button** - Always accessible
+- **Real-time Chat** - Instant responses
+- **Modern UI** - Material Design icons
+- **Collapsible** - Minimizes when not in use
+
+#### Dynamic Pages
+- **Landing Page** - Hero section with features showcase
+- **Dashboard** - Restaurant management interface
+- **Scraping Center** - Automated restaurant discovery
+- **About & Contact** - Company information
+- **Authentication** - Secure login/register
+
+#### Analytics Integration
+- **PostHog** - User behavior tracking
+- **Event Tracking** - User interaction analytics
+- **Session Replay** - Debug user issues
 
 
-## 📝 Notes
+## 🎨 Frontend Pages
 
-- Mots de passe hashés avec bcrypt (10 rounds)
-- Tokens JWT expirent après 7 jours
-- CORS activé pour requêtes cross-origin
-- Validation des enums (cuisine, status)
-- Gestion d'erreurs centralisée
+### Landing Page (`index.html`)
+- Hero section with call-to-action
+- Key features showcase
+- About section
+- Contact form
+- AI chatbot widget
+- Footer with social links
+
+### Dashboard (`dashboard.html`)
+- Restaurant grid with cards
+- Add new restaurant form
+- Edit/Delete functionality
+- Favorites toggle
+- Search and filter options
+- Pagination controls
+
+### Scraping Center (`scraping.html`)
+- City and keyword input
+- Trigger scraping workflow
+- Real-time status updates
+- Results display in cards
+- Google Sheets export link
+
+### Authentication (`login.html`)
+- Login/Register toggle
+- JWT token management
+- Form validation
+- Secure password handling
+
+## 🤖 AI Chatbot
+
+The chatbot is powered by n8n workflow automation and provides:
+- **Natural Language Processing** - Understands user queries
+- **Restaurant Queries** - Search and filter restaurants
+- **Favorites Management** - Add/remove favorites via chat
+- **Context Awareness** - Remembers conversation history
+- **Groq LLM Integration** - Fast and accurate responses
+
+### Chatbot Workflow
+1. User sends message via chat widget
+2. Frontend sends POST request to `/api/chatbot`
+3. Backend proxies request to n8n webhook
+4. n8n processes with AI Agent (Groq)
+5. Response returned to user in real-time
+
+## � Progressive Web App (PWA)
+
+### Features
+- **Installable** - Works like a native app
+- **Offline Support** - Service worker caching
+- **App Manifest** - Custom icon and theme
+- **Fast Loading** - Optimized assets
+
+### Installation
+Users can install the app by:
+1. Visiting the website on mobile
+2. Clicking "Add to Home Screen"
+3. Launching from home screen like a native app
+
+## 📊 Analytics
+
+**PostHog Integration** provides:
+- User behavior tracking
+- Feature usage analytics
+- Session recordings
+- Event tracking
+- Funnel analysis
+
+## 📝 Technical Notes
+
+- Passwords hashed with bcrypt (10 rounds)
+- JWT tokens expire after 7 days
+- CORS enabled for cross-origin requests
+- Enum validation (cuisine, status)
+- Centralized error handling
+- Responsive design with mobile-first approach
+- Glassmorphism CSS design system
+- n8n webhooks for automation
+
+## 🚀 Deployment
+
+### Vercel Deployment
+The application is configured for Vercel deployment with `vercel.json`:
+```json
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "app.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "app.js"
+    }
+  ]
+}
+```
+
+### Environment Variables
+Ensure all environment variables are set in your deployment platform:
+- `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`
+- `JWT_SECRET`, `JWT_EXPIRES_IN`
+- `N8N_WEBHOOK_URL` (for scraping)
+- n8n chatbot webhook URL (hardcoded in `routes/chat.js`)
+
+## 🔗 n8n Workflows
+
+### Scraping Workflow
+- Triggers via webhook from frontend
+- Uses SerpAPI for Google Maps scraping
+- Exports results to Google Sheets
+- Logs operations to database
+
+### Chatbot Workflow
+- AI Agent with Groq LLM
+- Supabase tool for database queries
+- Memory for conversation context
+- Natural language understanding
+
+## 📄 License
+
+This project is private and proprietary.

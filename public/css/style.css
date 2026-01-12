@@ -201,6 +201,12 @@ body {
     gap: 2rem;
 }
 
+.nav-mobile-menu {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
 .nav-link {
     color: var(--light);
     text-decoration: none;
