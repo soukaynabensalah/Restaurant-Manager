@@ -403,7 +403,7 @@ body {
 .footer-col a {
     color: #999;
     margin-bottom: 0.8rem;
-    display: block;
+    
     text-decoration: none;
     line-height: 1.6;
 }
@@ -613,6 +613,16 @@ body {
 .contact-grid {
     display: flex;
     flex-direction: row;
+    gap: 3rem;
+    align-items: flex-start;
+}
+
+.contact-grid>div:first-child {
+    flex: 0 0 45%;
+}
+
+.contact-grid>div:last-child {
+    flex: 1;
 }
 
 /* Responsive */
